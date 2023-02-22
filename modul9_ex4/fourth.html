@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <input type="text" id="input-numbers" placeholder="Enter number" />
+      <input type="text" id="input-numbers-1" placeholder="Enter number" />
+      <button type="submit" onclick="submitForm(event)">Submit</button>
+    </form>
+    <div id="images-row"></div>
+    <script>
+      function submitForm(event) {
+        event.preventDefault();
+        let number1 = Number(document.getElementById("input-numbers").value);
+        let number2 = Number(document.getElementById("input-numbers-1").value);
+        let imgRow = document.getElementById("images-row");
+        console.log(number1);
+        console.log(number2);
+
+        if (
+          !isNaN(number1) &&
+          !isNaN(number2) &&
+          number1 >= 100 &&
+          number1 <= 300 &&
+          number2 >= 100 &&
+          number2 <= 300
+        ) {
+          const URL = `https://picsum.photos/${number1}/${number2}`;
+          fetch(URL)
+            .then((response) => {
+              if (response.ok) {
+                console.log(response);
+                let im = response.url;
+                imgRow.innerHTML = `<img src="${im}" alt="img">`;
+              } else {
+                imgRow.innerHTML = `Error from server`;
+              }
+            })
+            .catch((error) => {
+              imgRow.innerHTML = `Error while loading data`;
+            });
+        } else {
+          imgRow.innerHTML = "ENTER VALID DATA";
+        }
+      }
+    </script>
+  </body>
+</html>
